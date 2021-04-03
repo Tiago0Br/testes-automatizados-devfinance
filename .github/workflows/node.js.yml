@@ -33,7 +33,6 @@ jobs:
       env:
         CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
-      # Upload dos videos
       - name: Upload videos
         uses: actions/upload-artfact@v2.2.0
         if: always()
