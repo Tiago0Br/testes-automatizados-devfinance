@@ -5,17 +5,20 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
+
     strategy:
       matrix:
         node-version: [14.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
@@ -24,18 +27,21 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm install
     
-    # Actions criadas para o Cypress
+    
+    # action criada especialmente para o Cypress    
     - name: Cypress run
       uses: cypress-io/github-action@v2.8.2
-      with: 
+      with:
         record: true
         group: 'Semana Agilizei'
       env:
+        # pass the Dashboard record key as an environment variable
         CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-
-      - name: Upload videos
-        uses: actions/upload-artifact@v2.2.0
-        if: always()
-        with:
-          name: videos
-          path: cypress/videos
+        
+    # upload dos vídeos gerados    
+    - name: Upload videos
+      uses: actions/upload-artifact@v2.2.0
+      if: always()
+      with:
+        name: videos
+        path: cypress/videos
