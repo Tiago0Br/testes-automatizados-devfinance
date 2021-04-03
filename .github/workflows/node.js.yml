@@ -34,7 +34,7 @@ jobs:
         CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
       - name: Upload videos
-        uses: actions/upload-artfact@v2.2.0
+        uses: actions/upload-artifact@v2.2.0
         if: always()
         with:
           name: videos
