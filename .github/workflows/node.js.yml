@@ -26,7 +26,7 @@ jobs:
     
     # Actions criadas para o Cypress
     - name: Cypress run
-      uses: cypress-io/github-actions@v2.8.2
+      uses: cypress-io/github-action@v2.8.2
       with: 
         record: true
         group: 'Semana Agilizei'
