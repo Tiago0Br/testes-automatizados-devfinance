@@ -1,17 +1,31 @@
 export const format = (value) => {
-    let formattedValue
+    let formattedValue;
   
-    formattedValue = value.replace(/\./g, '')
-    formattedValue = formattedValue.replace(/,/g, '.')
-    formattedValue = Number(formattedValue.split('$')[1].trim())
+    formattedValue = value.replace(/\./g, '');
+    formattedValue = formattedValue.replace(/,/g, '.');
+    formattedValue = Number(formattedValue.split('$')[1].trim());
   
-    formattedValue = String(value).includes('-') ? -formattedValue : formattedValue
+    formattedValue = String(value).includes('-') ? -formattedValue : formattedValue;
   
-    return formattedValue
+    return formattedValue;
   }
   
   export const randomNumber = () => {
-    return Math.floor(Math.random() * 101)
+    return Math.floor(Math.random() * 101);
+  }
+  // dd/mm/aaaa
+  export const dateFormatter = date => {
+    if (!date) return '';
+    let months = [
+      "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro",
+      "Outubro", "Novembro", "Dezembro"
+    ];
+    let monthNumber = Number(date.split("/")[1]);
+    let day = date.split("/")[0];
+    let year = date.split("/")[2];
+
+    let monthName = months[monthNumber-1];
+    return `${monthName} ${day}, ${year}`;
   }
   
   
