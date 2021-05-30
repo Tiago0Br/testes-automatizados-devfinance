@@ -1,25 +1,34 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+import { dateFormatter } from "./utils";
+
+Cypress.Commands.add("addTransaction", (description, amount, date) => {
+    let formattedDate = dateFormatter(date);
+    cy.get('.button.new').click();
+    if (description) cy.get('#description').type(description);
+    if (amount) cy.get('#amount').type(amount);
+    if (formattedDate) { 
+        cy.get('#date').click();
+        cy.get(`span[aria-label="${formattedDate}"]`).click();
+    } 
+    cy.get('#save').contains("Salvar").click();
+})
+
+Cypress.Commands.add("editTransaction", (transaction, newDescription="", newAmount=0, newDate="") => {
+    cy.get("td.description")
+        .contains(transaction)
+        .siblings()
+        .children("img[onclick*=edit]")
+        .click();
+
+    cy.get('#description').invoke("val").then(value => {
+        expect(value).to.eql(transaction);
+    });
+
+    if (newDescription) cy.get('#description').clear().type(newDescription);
+    if (newAmount) cy.get('#amount').clear().type(newAmount);
+    if (newDate) {
+        let formattedDate = dateFormatter(newDate);
+        cy.get('#date').click();
+        cy.get(`span[aria-label="${formattedDate}"]`).click();
+    }
+    cy.get('#save').contains("Salvar").click();
+})
